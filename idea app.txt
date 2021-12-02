@@ -1,0 +1,5 @@
+users --> teacher --> enseña materias
+	--> student --> estudia materias
+	--> admin --> gestiona materias
+
+listas --> tareas 

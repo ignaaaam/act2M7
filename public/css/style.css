@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Anton|Roboto');
+
+body{
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+    height: 100vh;;
+
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.credentials-form {
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.credentials-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-image {
+    margin-top: 20px;;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.word {
+  font-family: 'Anton', sans-serif;
+  perspective: 1000px; 
+  margin-top: 2rem;
+    color: rgb(38, 57, 77);
+
+  display: flex;
+  align-items: center;
+    justify-content: center;
+}
+
+.word span {
+  display: inline-block;
+  font-size: 100px;
+  user-select: none;
+  line-height: .8;
+}

@@ -1,0 +1,13 @@
+Registro --> student
+	 --> teacher
+
+Login --> Dashboard
+
+Dashboard permite:
+	-student --> tareas/listas
+		 --> perfil: visualizar profesores/asignaturas
+
+	-teacher --> tarea/lista (CRUD)
+		 --> Perfil: visualizar asignaturas/alumnos
+
+	-admin --> CRUD de todo
