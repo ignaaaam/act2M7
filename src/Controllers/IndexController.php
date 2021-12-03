@@ -6,7 +6,7 @@
     use App\Registry;
     use App\Controller;
 
-class IndexController extends Controller {
+class IndexController {
 
         public function index()
         {
