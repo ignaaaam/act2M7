@@ -4,20 +4,15 @@
 
     
     use App\Registry;
+    use App\Controller;
 
-class IndexController {
+class IndexController extends Controller {
 
         public function index()
         {
             $users = Registry::get('database')->selectAll('users');
             
             return view('index', compact('users'));
-        }
-
-        public function roles(){
-            $roles = Registry::get('database')->selectAll('roles');
-
-            return view('index', compact('roles'));
         }
 
     }

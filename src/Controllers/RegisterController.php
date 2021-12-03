@@ -12,4 +12,8 @@ class RegisterController {
 
         return view('register', compact('roles'));
     }
+
+    public function register(){
+        // PARA HACER
+    }
 }
