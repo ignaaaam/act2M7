@@ -40,7 +40,7 @@ final class Session{
      * @param string $key
      * @param mixed  $value
      */
-    public function set($key, $value) {
+    public static function set($key, $value) {
         $_SESSION[$key] = $value;
     }
     public function unset($key){

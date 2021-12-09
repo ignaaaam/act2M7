@@ -4,6 +4,7 @@ namespace App\Controllers;
 
     
     use App\Registry;
+    use App\Controller;
 
 class LoginController {
     public function index() {

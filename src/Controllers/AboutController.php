@@ -4,6 +4,7 @@
 
     
     use App\Registry;
+    use App\Controller;
 
 class AboutController {
 

@@ -15,8 +15,12 @@ class Controller {
         $this->session->$session;
     }
 
-    // function error(String $str){
-    //     $session::set('error', $str);
-    // }
+    function error(String $str){
+        Session::set('error', $str);
+    }
+
+    function redirectTo($location){
+        header('Location:', root().$location);
+    }
 }
 
