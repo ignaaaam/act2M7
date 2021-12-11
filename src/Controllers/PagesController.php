@@ -13,4 +13,8 @@
         function about(){
             return view('about');
         }
+
+        function contact(){
+            return view('contact');
+        }
     }

@@ -9,10 +9,9 @@ class Controller {
     protected $request;
     protected $session;
 
-
     function __construct(Request $request, Session $session){
-        $this->request->$request;
-        $this->session->$session;
+        $this->request = $request;
+        $this->session = $session;
     }
 
     function error(String $str){

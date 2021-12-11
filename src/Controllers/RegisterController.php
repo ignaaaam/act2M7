@@ -5,19 +5,20 @@ namespace App\Controllers;
     
     use App\Registry;
     use App\Controller;
+    use App\Request;
+    use App\Session;
 
-class RegisterController {
+class RegisterController extends Controller {
+    
     public function index() {
 
         $roles = Registry::get('database')->selectAll('roles');
-
         return view('register', compact('roles'));
     }
 
     public function reg(){
-        // request->post (de donde viene post)
-        $email=$_POST['email'];
-        dd($email);
+
+        $email=$this->request->post('email');
         $username=$this->request->post('username');
         $password=$this->request->post('password');
         $password2=$this->request->post('password2');
