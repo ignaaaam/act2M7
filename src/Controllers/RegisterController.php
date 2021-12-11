@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-    
     use App\Registry;
     use App\Controller;
     use App\Request;
@@ -12,7 +11,7 @@ class RegisterController extends Controller {
     
     public function index() {
 
-        $roles = Registry::get('database')->selectAll('roles');
+        $roles = Registry::get('database')->selectFirstTwo('roles');
         return view('register', compact('roles'));
     }
 
@@ -25,10 +24,11 @@ class RegisterController extends Controller {
 
         if(isset($email) && isset($password) 
             && isset($password2) && isset($username)){
-            if($password2 == $password){
-
+            if($password == $password2){
+                $pass=password_hash($password,PASSWORD_BCRYPT,['cost'=>4]);
+                
             } else {
-                // Controller::redirectTo('index');
+                Controller::redirectTo('index');
             }
         }
     }

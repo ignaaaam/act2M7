@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Database;
-class QueryBuilder{
-    private $selectables=[];
+
+class QueryBuilder
+{
+    private $selectables = [];
     private $table;
     private $whereClause;
     private $limit;
@@ -10,37 +12,28 @@ class QueryBuilder{
 
     function __construct($pdo)
     {
-        $this->pdo=$pdo;
+        $this->pdo = $pdo;
     }
 
-    function selectAll($table){
+    function selectAll($table)
+    {
         $statement = $this->pdo->prepare("select * from {$table}");
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_CLASS);
     }
 
-    public function select(){
-        $this->selectables=func_get_args();
+    public function select()
+    {
+        $this->selectables = func_get_args();
         return $this;
     }
 
-    /*public function insert($table, $parameters)
+    function selectFirstTwo($table)
     {
-        $sql = sprintf(
-            'insert into %s (%s) values (%s)',
-            $table,
-            implode(', ', array_keys($parameters)),
-            ':' . implode(', :', array_keys($parameters))
-            
-        );
+        $statement = $this->pdo->prepare("SELECT * FROM {$table} WHERE role = 'alumne' OR role = 'teacher'");
+        $statement->execute();
+        return $statement->fetchAll(\PDO::FETCH_CLASS);
+    }
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $statement->execute($parameters);
-        } catch (\Exception $e) {
-            die('Whoops, something went wrong.');
-        }
-    }*/
-
-
+    
 }
