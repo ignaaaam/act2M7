@@ -21,12 +21,23 @@ class RegisterController extends Controller {
         $username=$this->request->post('username');
         $password=$this->request->post('password');
         $password2=$this->request->post('password2');
+        $role = $this->request->post('role');
 
-        if(isset($email) && isset($password) 
-            && isset($password2) && isset($username)){
+        if(isset($email) && !empty($email) 
+            && isset($username) && !empty($username)
+            && isset($password) && !empty($password) 
+            && isset($password2) && !empty($password2)
+            && isset($role) && !empty($role)){
             if($password == $password2){
                 $pass=password_hash($password,PASSWORD_BCRYPT,['cost'=>4]);
-                
+                try {
+                    $data=[$username,$email,$pass,$role];
+                    dd($data);
+                    Registry::get('database')->insert($data);
+                    Controller::redirectTo('login');
+                } catch (\PDOException $e) {
+                    return false;
+                }
             } else {
                 Controller::redirectTo('index');
             }

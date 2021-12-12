@@ -13,7 +13,7 @@
             <label class="text-white ml-4 mr-4" for="role">Role:</label>
             <select class="my-8 rounded-lg bg-indigo-500 border cursor-pointer text-white p-2" name="role" id="role">
             <?php foreach($roles as $role):?>
-                <option class="m-4"><?php echo $role->role;?></option>
+                <option value="<?php echo $role->id;?>" class="m-4"><?php echo $role->role;?></option>
             <?php endforeach; ?>
             </select><br>
 

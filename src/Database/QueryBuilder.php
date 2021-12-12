@@ -35,5 +35,10 @@ class QueryBuilder
         return $statement->fetchAll(\PDO::FETCH_CLASS);
     }
 
+    function insert($data){
+        $statement = $this->pdo->prepare("INSERT INTO users VALUES (?,?,?,?,NULL)");
+        $statement->execute();
+    }
+
     
 }
