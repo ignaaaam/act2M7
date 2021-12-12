@@ -36,8 +36,9 @@ class QueryBuilder
     }
 
     function insert($data){
-        $statement = $this->pdo->prepare("INSERT INTO users VALUES (?,?,?,?,NULL)");
-        $statement->execute();
+        $statement = $this->pdo->prepare("INSERT INTO users(username,email,password,Roles_id,Curso_id) VALUES (?,?,?,?,NULL)");
+        $statement->execute($data);
+        return true;
     }
 
     
