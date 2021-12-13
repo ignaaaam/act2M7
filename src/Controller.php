@@ -19,7 +19,7 @@ class Controller {
     }
 
     function redirectTo($location){
-        header('Location:', root().$location);
+        header('location:'. root().$location);
     }
 }
 

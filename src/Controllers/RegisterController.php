@@ -33,12 +33,14 @@ class RegisterController extends Controller {
                 try {
                     $data=[$username,$email,$pass,$role];
                     Registry::get('database')->insert($data);
-                    Controller::redirectTo('login');
+                    header('location: /login');
+                    //Controller::redirectTo('login');
                 } catch (\PDOException $e) {
                     return $e->getMessage();
                 }
             } else {
-                Controller::redirectTo('index');
+                header('location: /index');
+                //Controller::redirectTo('index');
             }
         }
     }
