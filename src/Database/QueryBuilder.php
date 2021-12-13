@@ -41,5 +41,30 @@ class QueryBuilder
         return true;
     }
 
+    public function auth($email, $password){
+        $email=$this->request->post('email');
+        $password=$this->request->post('password');
+
+        try {
+            $statement = $this->pdo->prepare("SELECT * FROM users WHERE email=:email LIMIT 1");
+            $statement->execute([':email'=>$email]);
+            $count=$statement->rowCount();
+            $row=$statement->fetchAll(\PDO::FETCH_ASSOC);  
+            
+            if($count == 1){
+                $user=$row[0];
+                $res=password_verify($password,$user['password']);
+                if($res){
+                    $_SESSION['user']=$user;
+                    $_SESSION['logged']=true;
+                    $_SESSION['username']=$user['username'];
+                    $_SESSION['email']=$user['email'];
+                }
+            }
+        } catch (\Throwable $th) {
+            
+        }
+        
+    }
     
 }

@@ -11,7 +11,9 @@ class LoginController {
         return view('login');
     }
 
+    
+
     public function login(){
-        // PARA HACER 
+         
     }
 }
