@@ -41,7 +41,7 @@ class QueryBuilder
         return true;
     }
 
-    public function auth($email, $password){
+    public static function auth($email, $password){
         $email=$this->request->post('email');
         $password=$this->request->post('password');
 
@@ -58,13 +58,19 @@ class QueryBuilder
                     $_SESSION['user']=$user;
                     $_SESSION['logged']=true;
                     $_SESSION['username']=$user['username'];
-                    $_SESSION['email']=$user['email'];
+                    $_SESSION['email']=$user['email'];                    
+
+                    //remember($email,$user['password']);
+                    return true;
                 }
+                else {
+                    return false;
+                }
+            } else {
+                header('location: /login');
             }
-        } catch (\Throwable $th) {
-            
+        } catch (\PDOException $e) {
+            return $e->getMessage();
         }
-        
     }
-    
 }
