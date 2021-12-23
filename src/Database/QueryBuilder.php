@@ -2,6 +2,8 @@
 
 namespace App\Database;
 
+use App\Registry;
+
 class QueryBuilder
 {
     private $selectables = [];
@@ -15,11 +17,55 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
-    function selectAll($table)
+    function selectAll($table, array $fields=null):array
     {
-        $statement = $this->pdo->prepare("select * from {$table}");
+        if(is_array($fields)){
+            $columns=implode(',',$fields);
+        }else {
+            $columns="*";
+        }
+
+        $sql="SELECT {$columns} FROM {$table}";
+
+        $statement = $this->pdo->query($sql);
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_CLASS);
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    function selectAllWithJoin($table1,$table2,array $fields=null,string $join1, string $join2):array{
+        if(is_array($fields)){
+            $columns=implode(',',$fields);
+        }else {
+            $columns="*";
+        }
+
+        $inners="{$table1}.{$join1} = {$table2}{$join2}";
+
+        $sql="SELECT {$columns} FROM {$table1} INNER JOIN {$table2} ON {$inners}";
+
+        $statement = $this->query($sql);
+        $statement->execute();
+        $rows=$statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $rows;
+    }
+
+    function selectWhereWithJoin($table1,$table2, array $fields=null, string $join1, string $join2, array $conditions):array{
+        if (is_array($fields)){
+            $columns=implode(',',$fields);
+            
+        }else{
+            $columns="*";
+        }
+
+        $inners="{$table1}.{$join1} = {$table2}{$join2}";
+        $cond = "{$conditions[0]} = '{$conditions[1]}'";
+
+        $sql = "SELECT {$columns} FROM {$table1} INNER JOIN {$table2} ON {$inners} WHERE {$cond}";
+
+        $statement = $this->query($sql);
+        $statement->execute();
+        $rows=$statement->fetchAll(\PDO::FETCH_OBJ);
+        return $rows;
     }
 
     public function select()
@@ -41,36 +87,5 @@ class QueryBuilder
         return true;
     }
 
-    public static function auth($email, $password){
-        $email=$this->request->post('email');
-        $password=$this->request->post('password');
-
-        try {
-            $statement = $this->pdo->prepare("SELECT * FROM users WHERE email=:email LIMIT 1");
-            $statement->execute([':email'=>$email]);
-            $count=$statement->rowCount();
-            $row=$statement->fetchAll(\PDO::FETCH_ASSOC);  
-            
-            if($count == 1){
-                $user=$row[0];
-                $res=password_verify($password,$user['password']);
-                if($res){
-                    $_SESSION['user']=$user;
-                    $_SESSION['logged']=true;
-                    $_SESSION['username']=$user['username'];
-                    $_SESSION['email']=$user['email'];                    
-
-                    //remember($email,$user['password']);
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            } else {
-                header('location: /login');
-            }
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
-    }
+    
 }

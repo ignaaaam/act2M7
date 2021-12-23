@@ -35,8 +35,4 @@ class Registry
 
         return static::$services[$key];
     }
-
-    public static function delete($key){
-        
-    }
 }

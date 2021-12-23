@@ -14,12 +14,20 @@ class Controller {
         $this->session = $session;
     }
 
-    function error(String $str){
+    function error(String $str=null){
+        if($str==null){
+            $str="Not an action";
+        }
         Session::set('error', $str);
     }
 
     function redirectTo($location){
-        header('location:'. root().$location);
+        if(root()==""){
+            $location='/'.$location;
+        }else {
+            $location=root().$location;
+        }
+        header('location:'.$location);
     }
 }
 

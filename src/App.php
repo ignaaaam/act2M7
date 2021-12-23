@@ -13,7 +13,6 @@
             $session=new Session();
             $routes=self::getRoutes();
            
-            
             // obtenir tres parámetres: controlador, accio,[parametres]
             // url friendly :  http://app/controlador/accion/param1/valor1/param2/valor2
             self::$req=new Request;
@@ -41,7 +40,6 @@
                    }else{
                        call_user_func([$objContr,'error']);
                    }
-
                }else{
                     throw new \Exception("Ruta no disponible");
                 }
@@ -61,7 +59,6 @@
                 if ($entry!='.' && $entry!='..'){
                     $routes[]=strtolower(substr($entry,0,-14));
                 }
-               
             }
             return $routes;
         }
