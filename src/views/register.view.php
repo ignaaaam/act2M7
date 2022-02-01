@@ -1,6 +1,6 @@
 <?php require('partials/head.php'); ?>
     <div class="credentials-box">
-        <form class=" credentials-form ml-4 mt-6 w-10/12 h-auto bg-indigo-700 rounded-lg" action="/register/reg" method="post">
+        <form class=" credentials-form ml-4 mt-6 w-10/12 h-auto bg-indigo-700 rounded-lg" action="<?= root(); ?>register/reg" method="post">
         <h1 class="p-6 font-bold text-2xl text-white">Registro</h1>
             <label for="email" class="sr-only">Email address:</label>
             <input required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email..." type="email" name="email" id="email"><br>

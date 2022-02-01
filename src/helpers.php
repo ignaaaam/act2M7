@@ -25,7 +25,7 @@ function  dd($args){
 
     function root(){
         if($_ENV['ROOT']=='/'){
-            return '';
+            return '/';
         }
         return $_ENV['ROOT'];
     }

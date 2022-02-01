@@ -18,10 +18,10 @@
                 $statement = $this->pdo->query('SELECT * FROM users WHERE email=:email LIMIT 1');
                 $statement->execute([':email'=>$email]);
                 $count=$statement->rowCount();
-                $user=$statement->fetchAll(\PDO::FETCH_CLASS)[0];
 
                 // si encuentra
                 if($count == 1){
+                    $user=$statement->fetchAll(\PDO::FETCH_CLASS)[0];
                     $result = password_verify($pass,$user->password);
 
                     if($result){
@@ -32,15 +32,21 @@
                         Session::set('role', $user->role);
                         Session::set('logged', true);
                         Session::set('email', $user->email);
+                        Session::set('user', $user);
 
                         remember($email,$user->password);
                         return $user;
                     }else {
+                        Session::set('error','La contraseña no es correcta');
                         return false;
                     }
+                }else {
+                    Session::set('error','Alguno de los datos de inicio son incorrectos');
+                    return false;
                 }
             } catch (\PDOException $e) {
-                return $e->getMessage();
+                Session::set('error','Error de conexion con la base de datos');
+                return false;
             }
         }
     }

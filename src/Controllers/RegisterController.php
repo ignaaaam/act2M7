@@ -39,8 +39,8 @@ class RegisterController extends Controller {
                     return $e->getMessage();
                 }
             } else {
-                header('location: /index');
-                //Controller::redirectTo('index');
+                //header('location: /index');
+                Controller::redirectTo('login');
             }
         }
     }
