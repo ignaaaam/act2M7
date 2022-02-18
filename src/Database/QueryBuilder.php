@@ -29,7 +29,9 @@ class QueryBuilder
 
         $statement = $this->pdo->query($sql);
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_OBJ);
+        $rows = $statement->fetchAll(\PDO::FETCH_OBJ);
+        return $rows;
+
     }
 
     function selectAllWithJoin($table1,$table2,array $fields=null,string $join1, string $join2):array{
@@ -57,7 +59,7 @@ class QueryBuilder
             $columns="*";
         }
 
-        $inners="{$table1}.{$join1} = {$table2}{$join2}";
+        $inners="{$table1}.{$join1} = {$table2}.{$join2}";
         $cond = "{$conditions[0]} = '{$conditions[1]}'";
 
         $sql = "SELECT {$columns} FROM {$table1} INNER JOIN {$table2} ON {$inners} WHERE {$cond}";
@@ -68,10 +70,36 @@ class QueryBuilder
         return $rows;
     }
 
+    public  function query($sql){
+        return  $statement = $this->pdo->prepare($sql);       
+    }
+
     public function select()
     {
         $this->selectables = func_get_args();
         return $this;
+    }
+
+    function update(string $table, array $data,$id){
+        if ($data){
+            $keys = array_keys($data);
+            $values=array_values($data);
+            $changes="";
+            for ($i=0; $i < count($keys); $i++) { 
+                $changes.=$keys[$i]."='".$values[$i]."',";
+            }
+            $changes=substr($changes,0,-1);
+            $cond="id='{$id}'";
+            $sql="UPDATE {$table} SET {$changes} WHERE {$cond}";
+
+            $statement=$this->query($sql);
+            $res = $statement->execute();
+            if($res){
+                return true;
+            }else {
+                return false;
+            }
+        }
     }
 
     function selectFirstTwo($table)
@@ -81,10 +109,50 @@ class QueryBuilder
         return $statement->fetchAll(\PDO::FETCH_CLASS);
     }
 
-    function insert($data){
+    function insert($table,$data):bool {
+        if(is_array($data)){
+            $columns ='';
+            $bindv='';
+            $values=null;
+            foreach ($data as $column => $value) {
+                $columns.='`'.$column.'`,';
+                $bindv.='?,';
+                $values[]=$value;
+            }
+            $columns=substr($columns,0,-1);
+            $bindv=substr($bindv,0,-1);
+
+            $sql="INSERT INTO {$table}({$columns}) VALUES ({$bindv})";
+
+            try {
+                $statement = $this->query($sql);
+                $statement->execute($values);
+                return $this->pdo->lastInsertId();
+            } catch (\PDOException $e) {
+                echo $e->getMessage();
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /*function insert($data){
         $statement = $this->pdo->prepare("INSERT INTO users(username,email,password,Roles_id,Curso_id) VALUES (?,?,?,?,NULL)");
         $statement->execute($data);
         return true;
+    }*/
+
+    function remove($table,$id){
+        $sql = "DELETE FROM {$table} WHERE id='{$id}'";
+
+        $statement=$this->query($sql);
+        $res=$statement->execute();
+        if($res){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     

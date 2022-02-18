@@ -20,16 +20,4 @@ class LoginController extends Controller
     {
         return view('login');
     }
-
-    public function auth(){
-        $email=$this->request->post('email');
-        $pwd=$this->request->post('password');
-        if($user=Registry::get('auth')->auth($email,$pwd)){
-            $this->redirectTo('dashboard');
-        } else {
-            $this->redirectTo('login');
-        }
-    }
-
-    
 }
