@@ -28,13 +28,16 @@ class RegisterController extends Controller {
             && isset($password) && !empty($password) 
             && isset($password2) && !empty($password2)
             && isset($role) && !empty($role)){
+
+                $db = Registry::get('database');
+
             if($password == $password2){
-                $pass=password_hash($password,PASSWORD_BCRYPT,['cost'=>4]);
+                $pass=password_hash($password,PASSWORD_BCRYPT);
                 try {
-                    $data=[$username,$email,$pass,$role];
-                    Registry::get('database')->insert($data);
-                    header('location: /login');
-                    //Controller::redirectTo('login');
+                    $statement = $db->query("INSERT INTO users(username,email,password,roles_id) VALUES (?,?,?,?)");
+                    $statement->execute([$username, $email, $pass, $role]);
+                    $_SESSION['logged'] = true;
+                    header('location: /dashboard');
                 } catch (\PDOException $e) {
                     return $e->getMessage();
                 }

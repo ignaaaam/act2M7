@@ -1,4 +1,7 @@
 <?php require('partials/head.php'); ?>
+<?php if(isset($_SESSION['logged'])): ?>
+     <?php header ( 'Location: index' ); ?>
+<?php endif;?>
     <div class="credentials-box">
         <form class=" credentials-form ml-4 mt-6 w-10/12 h-auto bg-indigo-700 rounded-lg" action="<?= root(); ?>register/reg" method="post">
         <h1 class="p-6 font-bold text-2xl text-white">Registro</h1>
@@ -13,7 +16,7 @@
             <label class="text-white ml-4 mr-4" for="role">Role:</label>
             <select class="my-8 rounded-lg bg-indigo-500 border cursor-pointer text-white p-2" name="role" id="role">
             <?php foreach($roles as $role):?>
-                <option value="<?php echo $role->id;?>" class="m-4"><?php echo $role->role;?></option>
+                <option value="<?php echo $role->id;?>" class="m-4"><?php echo $role->name;?></option>
             <?php endforeach; ?>
             </select><br>
 

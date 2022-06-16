@@ -104,7 +104,7 @@ class QueryBuilder
 
     function selectFirstTwo($table)
     {
-        $statement = $this->pdo->prepare("SELECT * FROM {$table} WHERE role = 'alumne' OR role = 'teacher'");
+        $statement = $this->pdo->prepare("SELECT * FROM {$table} WHERE name = 'alumne' OR name = 'profesor'");
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_CLASS);
     }
@@ -154,6 +154,30 @@ class QueryBuilder
             return false;
         }
     }
+
+    function extract_lists($gdb){
+        $sql=" SELECT t2.id,t2.list_name from users t1 inner join lists t2 on t2.user_id=t1.id WHERE user=:user";
+        $stmt=$gdb->prepare($sql);
+        $res=$stmt->execute([':user'=>$_SESSION['user']['id']]);
+        if($res){
+            $rows=$stmt->fetchAll();
+            return $rows;
+
+        }
+        return null;
+    }
+
+    function extract_list_items($gdb,$idlist){
+        $sql="SELECT t2.list_name,t3.name from users t1 inner join lists t2 on t2.user_id=t1.id inner join tasks t3 on t3.list_id=t2.id WHERE t1.id=:user AND t2.id=:list";
+        $stmt=$gdb->prepare($sql);
+        $res=$stmt->execute([':user'=>$_SESSION['user']['id'],':list'=>$idlist]);
+        if($res){
+            $rows=$stmt->fetchAll();
+            return $rows;
+        }
+        return null;
+    }
+    
 
     
 }

@@ -13,4 +13,5 @@
         function contact(){
             return view('contact');
         }
+        
     }

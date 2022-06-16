@@ -1,6 +1,9 @@
 <?php require('partials/head.php'); ?>
+<?php if(isset($_SESSION['logged'])): ?>
+     <?php header ( 'Location: index' ); ?>
+<?php endif;?>
 <div class="credentials-box">
-    <form class="credentials-form ml-4 mt-6 w-3/4 h-1/4 bg-indigo-700 rounded-lg" action="<?= root(); ?>login/auth" method="post">
+    <form class="credentials-form ml-4 mt-6 w-3/4 h-1/4 bg-indigo-700 rounded-lg" action="<?= root(); ?>login/login" method="post">
         <h1 class="p-6 font-bold text-2xl text-white">Login</h1>
         <label class="sr-only" for="email">Email:</label>
         <input class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="email" name="email" id="email" placeholder="Email..."><br>
